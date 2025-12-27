@@ -1,0 +1,41 @@
+$gray-secondary-opaque: rgba(84, 95, 125, 0.15);
+$green-primary: #39cdcc;
+
+.login__form_input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+
+  input {
+    padding: 1rem;
+    border: 2px solid $gray-secondary-opaque;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+
+  input:focus-visible {
+  outline: 2px solid $green-primary;
+  outline-offset: 1px;
+}
+
+  .login__toggle_visibility {
+    color: $green-primary;
+    font-size: 1.2rem;
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .login__error_message {
+    color: red;
+    font-size: 1.2rem;
+  }
+
+  input::placeholder {
+    color: rgba(84, 95, 125, 0.3);
+  }
+}

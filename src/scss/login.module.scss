@@ -1,0 +1,115 @@
+$gray-secondary-opaque: rgba(84, 95, 125, 0.15);
+$gray-secondary: #545F7D;
+$green-primary: #39cdcc;
+
+.login__main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  .login__image_container {
+    width: 100%;
+    display: flex;
+    background-color: #fbfbfb;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2rem;
+    position: relative;
+
+    @media (max-width: 768px) {
+      background-color: transparent;
+    }
+  }
+
+  .login_illustration {
+    max-width: 100%;
+    height: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      max-width: 375px;
+      margin: 0 auto;
+    }
+  }
+
+  .login__logo {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+    max-width: 12rem;
+
+    @media (max-width: 768px) {
+      position: static;
+      margin: 0 auto;
+    }
+  }
+
+  .login_welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 2rem 2rem 5rem 10rem;
+    @media (max-width: 768px) {
+      padding: 2rem 2rem 5rem 2rem;
+    }
+
+    .login_container {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      justify-content: center;
+      max-width: 375px;
+
+      @media (max-width: 768px) {
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    hgroup {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #213f7d;
+        letter-spacing: -0.2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: $gray-secondary;
+      }
+    }
+  }
+
+  .login__form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+
+    a {
+      color: $green-primary;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+  }
+
+  button {
+    padding: 1.3rem;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 8px;
+    background-color: $green-primary;
+    cursor: pointer;
+  }
+}
