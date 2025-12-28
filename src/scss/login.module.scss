@@ -115,7 +115,7 @@ $green-primary: #39cdcc;
     background-color: $green-primary;
     cursor: pointer;
      font-weight: 600;
-     font-size: 14px;
+     font-size: 1.4rem;
     transition: background-color 0.2s ease, opacity 0.2s ease;
 
     &:hover:not(:disabled) {
