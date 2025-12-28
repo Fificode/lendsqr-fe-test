@@ -1,13 +1,13 @@
 import inputStyles from "../scss/input.module.scss"
 
 interface InputProps {
-  placeholder?: string;
-  type?: string;
-  name?: string;
+  placeholder: string;
+  type: string;
+  name: string;
   onShowPassword?: () => void;
-  error?: string | null;
-  handleEmail?: () => void;
-  value?: string;
+  error: string | null;
+  handleValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 
 const Input = ({
@@ -15,7 +15,7 @@ const Input = ({
   type,
   name,
   error,
-  handleEmail,
+  handleValue,
   value,
   onShowPassword,
 }: InputProps) => {
@@ -26,7 +26,7 @@ const Input = ({
         type={type}
         value={value}
         name={name}
-        onChange={handleEmail}
+        onChange={handleValue}
         
       />
       {name === "password" && (
