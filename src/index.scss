@@ -20,7 +20,11 @@ $accent-blue: #545f7d;
 
 
 :root {
-  font-family: 'AvenirNext', Helvetica, Arial, sans-serif;
+ --font-avenir-next: "AvenirNext", Helvetica, Arial, sans-serif;
+  --font-work-sans: "Work Sans", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+
+  font-family: var(--font-avenir-next);
   color: #000;
   background-color: #fff;
 

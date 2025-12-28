@@ -1,0 +1,30 @@
+.layout_container{
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7fa;
+}
+
+
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+
+.content {
+  flex: 1;
+  padding: 3rem;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+  }
+}

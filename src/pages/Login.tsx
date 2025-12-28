@@ -15,44 +15,63 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isDisabled = !email || !password || isLoading;
+  const [errors, setErrors] = useState<{
+  email: string | null;
+  password: string | null;
+}>({
+  email: null,
+  password: null,
+});
 
-   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-if (isLoading) return;
-    // Email checks
-    if (!email) {
-      toast.error("Email is required");
-      return;
-    }
+// Disable submit button
+const isDisabled = !email || !password || isLoading;
 
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (isLoading) return;
 
-    // Password checks
-    if (!password) {
-      toast.error("Password is required");
-      return;
-    }
+  let hasError = false;
 
-    if (!/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)) {
-      toast.error(
-        "Password must be at least 8 characters and contain a number"
-      );
-      return;
-    }
+  // Reset errors
+  setErrors({ email: null, password: null });
 
- setIsLoading(true);
- setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Login successful");
-      navigate("/dashboard");
-    }, 2000);
-    // toast.success("Login successful");
-    // navigate("/dashboard");
-  };
+  // Email validation
+  if (!email) {
+    setErrors((prev) => ({ ...prev, email: "Email is required" }));
+    toast.error("Email is required");
+    hasError = true;
+  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    setErrors((prev) => ({ ...prev, email: "Invalid email address" }));
+    toast.error("Please enter a valid email address");
+    hasError = true;
+  }
+
+  // Password validation
+  if (!password) {
+    setErrors((prev) => ({ ...prev, password: "Password is required" }));
+    toast.error("Password is required");
+    hasError = true;
+  } else if (!/^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)) {
+    setErrors((prev) => ({
+      ...prev,
+      password: "Password must be at least 8 characters and contain a number",
+    }));
+    toast.error("Password must be at least 8 characters and contain a number");
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  // Login
+  setIsLoading(true);
+  setTimeout(() => {
+    localStorage.setItem("auth", "true");
+    setIsLoading(false);
+    toast.success("Login successful");
+    navigate("/dashboard");
+  }, 2000);
+};
+
 
   return (
     <main className={loginStyles.login__main}>
@@ -77,7 +96,7 @@ if (isLoading) return;
               name="email"
               value={email}
               handleValue={(e) => setEmail(e.target.value)}
-              error={null}
+             error={errors.email}
             />
 
             <Input
@@ -86,7 +105,7 @@ if (isLoading) return;
               name="password"
               value={password}
                handleValue={(e) => setPassword(e.target.value)}
-              error={null}
+               error={errors.password}
               onShowPassword={() => setShowPassword(!showPassword)}
             />
             <Link to="/">FORGOT PASSWORD?</Link>
