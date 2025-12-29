@@ -1,19 +1,24 @@
-import { NavLink } from "react-router-dom";
-import { topTabs, tabs, bottomTabs } from "../../utils/sidebarTabs";
+import { NavLink, useNavigate } from "react-router-dom";
+import { topTabs, tabs } from "../../utils/sidebarTabs";
 import styles from "../../scss/dashboard/sidebar.module.scss";
-import ArrowDown from "../../assets/images/arrow-down.svg?react"
+import ArrowDown from "../../assets/images/arrow-down.svg?react";
+import SignOut from "../../assets/images/sign-out.svg?react";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+        localStorage.removeItem("auth");
+        navigate("/");
+  }
   return (
     <aside className={`${styles.sidebar} custom-scrollbar`}>
-      
       {/* TOP TABS */}
       <div className={styles.topTabs}>
         {topTabs.map((item, index) => (
           <button key={index} className={styles.topbarButton}>
             {item.icon}
             <span>{item.name}</span>
-            <ArrowDown className={styles.arrow_icon}/>
+            <ArrowDown className={styles.arrow_icon} />
           </button>
         ))}
       </div>
@@ -28,11 +33,19 @@ export default function Sidebar() {
               </p>
             );
           }
-
+          if (item.disabled) {
+            return (
+              <div key={item.id} className={styles.disabledLink}>
+                {item.icon}
+                <span>{item.name}</span>
+              </div>
+            );
+          }
           return (
             <NavLink
               key={item.id}
               to={item.path}
+              end={item.path === "/dashboard"}
               className={({ isActive }) =>
                 isActive ? styles.activeLink : styles.link
               }
@@ -45,14 +58,13 @@ export default function Sidebar() {
       </nav>
       {/* BOTTOM TABS */}
       <div className={styles.bottomTabs}>
-        {bottomTabs.map((item, index) => (
-          <button key={index} className={styles.bottombarButton}>
-            {item.icon && item.icon}
-            <span>{item.name}</span>
-          </button>
-        ))}
-      </div>
+        <button type="button" onClick={handleLogout} className={styles.bottombarButton}>
+          <SignOut className={styles.logout_icon} />
+          <span>Logout</span>
+        </button>
 
+        <span className={styles.version_text}>v1.2.0</span>
+      </div>
     </aside>
   );
 }

@@ -68,7 +68,7 @@ const handleSubmit = (e: React.FormEvent) => {
     localStorage.setItem("auth", "true");
     setIsLoading(false);
     toast.success("Login successful");
-    navigate("/dashboard");
+    navigate("/dashboard/users");
   }, 2000);
 };
 

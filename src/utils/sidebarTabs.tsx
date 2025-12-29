@@ -19,7 +19,7 @@ import Slider from "../assets/images/sliders.svg?react"
 import BadgePercent from "../assets/images/badge-percent.svg?react"
 import Clipboard from "../assets/images/clipboard-list.svg?react"
 import Tire from "../assets/images/tire.svg?react"
-import SignOut from "../assets/images/sign-out.svg?react"
+
 
 export const topTabs = [
     {
@@ -33,7 +33,8 @@ export const tabs = [
       id: 1,
       name: "Dashboard",
       icon: <DashboardHome className="" />,
-      path: "",
+      path: "/dashboard",
+       disabled: true,
     },
     {
         subheading: "Customers"
@@ -43,48 +44,56 @@ export const tabs = [
       name: "Users",
       icon: <UserFriends className="" />,
       path: "users",
+       disabled: false,
     },
     {
       id: 3,
       name: "Guarantors",
       icon: <Guarantors className="" />,
       path: "guarantors",
+       disabled: true,
     },
     {
       id: 4,
       name: "Loans",
       icon: <Loans className="" />,
       path: "loans",
+       disabled: true,
     },
     {
       id: 4,
       name: "Decision Models",
       icon: <DecisionModels className="" />,
       path: "decision-models",
+       disabled: true,
     },
     {
       id: 5,
       name: "Savings",
       icon: <Savings className="" />,
       path: "savings",
+       disabled: true,
     },
     {
       id: 6,
       name: "Loan Requests",
       icon: <MoneyBag className="" />,
       path: "loan-requests",
+       disabled: true,
     },
     {
       id: 7,
       name: "Whitelist",
       icon: <Whitelist className="" />,
       path: "whitelist",
+       disabled: true,
     },
     {
       id: 8,
       name: "Karma",
       icon: <Karma className="" />,
       path: "karma",
+       disabled: true,
     },
      {
         subheading: "Businesses"
@@ -94,54 +103,63 @@ export const tabs = [
       name: "Organization",
       icon: <BriefCase className="" />,
       path: "organization",
+       disabled: true,
     },
     {
       id: 10,
       name: "Loan Products",
       icon: <MoneyBag className="" />,
       path: "loan-products",
+       disabled: true,
     },
     {
       id: 11,
       name: "Savings Products",
       icon: <SavingsProducts className="" />,
       path: "savings-products",
+       disabled: true,
     },
     {
       id: 12,
       name: "Fees and Charges",
       icon: <Coins className="" />,
       path: "fees-charges",
+       disabled: true,
     },
     {
       id: 13,
       name: "Transactions",
       icon: <Transaction className="" />,
       path: "transactions",
+       disabled: true,
     },
     {
       id: 14,
       name: "Services",
       icon: <Galaxy className="" />,
       path: "services",
+       disabled: true,
     },
     {
       id: 15,
       name: "Service Account",
       icon: <UserCog className="" />,
       path: "service-account",
+       disabled: true,
     },
     {
       id: 16,
       name: "Settlements",
       icon: <Scroll className="" />,
       path: "settlements",
+       disabled: true,
     },
     {
       id: 17,
       name: "Reports",
       icon: <ChartBar className="" />,
       path: "reports",
+       disabled: true,
     },
      {
         subheading: "Settings"
@@ -151,31 +169,25 @@ export const tabs = [
       name: "Preferences",
       icon: <Slider className="" />,
       path: "preferences",
+       disabled: true,
     },   {
       id: 19,
       name: "Fees and Pricing",
       icon: <BadgePercent className="" />,
       path: "fees-pricing",
+       disabled: true,
     },   {
       id: 20,
       name: "Audits Logs",
       icon: <Clipboard className="" />,
       path: "audits-logs",
+       disabled: true,
     },   {
       id: 21,
       name: "Systems Messages",
       icon: <Tire className="" />,
       path: "systems-messages",
+       disabled: true,
     },
 
   ];
-
-  export const bottomTabs = [{
-    name: "Logout",
-    icon: <SignOut className="" />,
-    path: "/",
-  },
-  {
-    name: "v1.2.0"
-  }
-];
