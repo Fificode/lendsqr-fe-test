@@ -7,7 +7,13 @@ import Avatar from "../../assets/images/avatar.png"
 import ArrowDropDown from "../../assets/images/dropdown-profile.svg?react"
 import { IoMenu } from "react-icons/io5"
 
-const Header = () => {
+
+type HeaderProps= {
+toggleSidebar: () => void;
+isOpen: boolean;
+}
+
+const Header = ({toggleSidebar, isOpen}: HeaderProps) => {
 
   return (
     <header className={headerStyles.container}>
@@ -25,7 +31,8 @@ const Header = () => {
         </div>
         {/* Actions: Docs, Notification Bell, Avatar & Profile drop-down */}
         <div className={headerStyles.header__user_info}>
-     <IoMenu className={headerStyles.menu_bar}/>
+          {!isOpen && <IoMenu onClick={toggleSidebar} className={headerStyles.menu_bar}/>}
+     
           <Link to="/">Docs</Link>
         <NotificationBell className={headerStyles.notification_bell}/>
 

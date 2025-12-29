@@ -21,18 +21,36 @@ $hover-primary: rgba(57, 205, 204, 0.08);
   @media (max-width: 768px) {
     position: fixed;
     left: 0;
-    top: 70px;
-    height: calc(100vh - 70px);
+    padding: 2rem 0 2rem 0;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 200;
   }
 }
+.close_container{
+  @media (max-width: 850px) {
+    display: flex;
+    align-self: flex-end;
+    padding: 1rem;
+  }
+ 
+.close_icon{
+  display: none;
+   @media (max-width: 850px) {
+    display: block;
+     width: 30px;
+      height: 30px;
+      color: $secondary;
+      cursor: pointer;
+    }
+}}
 
-
-.sidebarOpen {
+.mobile_sidebar {
+  transition: transform 0.3s ease-out;
   transform: translateX(0);
 }
+
+
 
 .topbarButton {
   display: flex;

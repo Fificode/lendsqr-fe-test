@@ -108,9 +108,10 @@ height: 14px;
   display: none;
    @media (max-width: 850px) {
     display: block;
-     width: 26px;
-      height: 26px;
+     width: 30px;
+      height: 30px;
       color: $blue-primary;
+      cursor: pointer;
     }
 }
     .notification_bell{
