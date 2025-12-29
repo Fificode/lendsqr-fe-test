@@ -90,16 +90,25 @@ button {
   display: none;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+.custom-scrollbar {
+  scrollbar-width: thin;              
+  scrollbar-color: #213f7d #fbfbfb;   
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #fbfbfb;
-}
+  &::-webkit-scrollbar {
+    height: 4px; 
+    width: 4px;  
+  }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #213f7d;
-  border-radius: 4px;
-}
+  &::-webkit-scrollbar-track {
+    background: #fbfbfb;
+    border-radius: 10px;
+  }
 
+  &::-webkit-scrollbar-thumb {
+    background-color: #213f7d;
+    border-radius: 10px;
+
+  
+    border: 1px solid #fbfbfb;
+  }
+}

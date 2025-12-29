@@ -21,7 +21,7 @@ $blue-primary: #213f7d;
 
 .logo {
   max-width: 10rem;
-   @media (max-width: 850px) {
+   @media (max-width: 768px) {
       display: none;
     }
 }
@@ -32,7 +32,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 850px) {
+    @media (max-width: 768px) {
       flex-direction: column-reverse;
       align-items: stretch;
     }
@@ -42,7 +42,7 @@ section {
       display: flex;
       width: 100%;
       max-width: 40rem;
-       @media (max-width: 850px) {
+       @media (max-width: 768px) {
           max-width: 100%;
         }
       input {
@@ -55,7 +55,7 @@ section {
         width: 100%;
         
 
-        @media (max-width: 850px) {
+        @media (max-width: 768px) {
           width: 100%;
           max-width: 100%;
           display: flex;
@@ -90,7 +90,7 @@ height: 14px;
       align-items: center;
       color: $blue-primary;
       font-family: var(--font-roboto), serif;
-      @media (max-width: 850px) {
+      @media (max-width: 768px) {
         gap: 2rem;
         justify-content: space-between;
       }
@@ -98,7 +98,7 @@ height: 14px;
         text-decoration: underline;
         font-family: var(--font-roboto), serif;
 
-        @media (max-width: 850px) {
+        @media (max-width: 768px) {
           margin-left: auto;
           padding-right: 0.5rem;
         }
@@ -106,7 +106,7 @@ height: 14px;
     }
 .menu_bar{
   display: none;
-   @media (max-width: 850px) {
+   @media (max-width: 768px) {
     display: block;
      width: 30px;
       height: 30px;

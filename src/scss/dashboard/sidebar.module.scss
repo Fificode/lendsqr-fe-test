@@ -28,7 +28,7 @@ $hover-primary: rgba(57, 205, 204, 0.08);
   }
 }
 .close_container{
-  @media (max-width: 850px) {
+  @media (max-width: 768px) {
     display: flex;
     align-self: flex-end;
     padding: 1rem;
@@ -36,7 +36,7 @@ $hover-primary: rgba(57, 205, 204, 0.08);
  
 .close_icon{
   display: none;
-   @media (max-width: 850px) {
+   @media (max-width: 768px) {
     display: block;
      width: 30px;
       height: 30px;
