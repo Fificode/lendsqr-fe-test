@@ -1,12 +1,14 @@
 import styles from "../../scss/dashboard/users.module.scss"
 import tableStyles from "../../scss/dashboard/users.table.module.scss"
 import UsersStats from "./users/UsersStats"
-import { userStatsData } from "../../utils/dummyData/userStats"
+import { userStatsData } from "../../utils/dummy-data/userStats"
 import type { userStats } from "../../types/userStats"
 import UsersTable from "./users/UsersTable"
-import { headers, data } from "../../utils/dummyData/userList"
+import { headers, data } from "../../utils/dummy-data/userList"
 import type { UserList } from "../../types/userLists"
 import Ellipsis from "../../assets/images/ellipsis.svg?react"
+import Pagination from "./users/Pagination"
+import { usePagination } from "../../utils/custom-hooks/usePagination"
 
 
 
@@ -60,7 +62,15 @@ export const renderRowUser = (
 };
 
 const Users = () => {
-  
+  const { 
+    currentPage, 
+    setCurrentPage, 
+    pages, 
+    totalPages, 
+    startIndex, 
+    endIndex 
+  } = usePagination({ totalItems: 500, itemsPerPage: 10 });
+  const paginatedData = userStatsData.slice(startIndex, endIndex);
   const handleClick = (user: UserList) => {
      console.log(user);
   };
@@ -70,7 +80,7 @@ const Users = () => {
       {/* Users Stats */}
       <section className={`${styles.user_stats_container} custom-scrollbar`}>
 {
- userStatsData.map((user: userStats) => ( 
+ paginatedData.map((user: userStats) => ( 
   <UsersStats key={user.id} title={user.title} icon={user.icon} iconColor={user.iconColor} value={user.value}/>
  )) 
 }
@@ -82,6 +92,16 @@ const Users = () => {
   renderRow={(item, _index, rowClass) =>
     renderRowUser(item, rowClass, handleClick)
                 }/>
+      </section>
+      {/* Pagination */}
+      <section>
+        <Pagination
+        currentPage={currentPage}
+        totalItems={500}
+        totalPages={totalPages}
+        pages={pages}
+        setCurrentPage={setCurrentPage}
+        />
       </section>
     </div>
   )

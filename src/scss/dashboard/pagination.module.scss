@@ -1,0 +1,111 @@
+$primary-dark: #213F7D;
+$primary-color: #545F7D; 
+$border-color: #e5e7eb;
+$white: #ffffff;
+$count-background: rgba(33, 63, 125, 0.1);
+
+.pagination_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+   font-family: var(--font-work-sans);
+}
+
+.pagination_container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    justify-content: space-between;
+  }
+
+  .info_text {
+    color: $primary-color;
+    font-weight: 400;
+    font-size: 1.4rem;
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 1rem;
+    span{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+         font-weight: 500;
+    font-size: 1.2rem;
+        gap: 1.5rem;
+        padding: 0.5rem 1rem;
+        background-color: $count-background;
+        border-radius: 4px;
+        color: $primary-dark;
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+
+    .page_btn {
+      width: 27px;
+      height: 27px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      background-color: $count-background ;
+      color: $primary-dark;
+      transition: all 0.2s ease;
+
+      @media (min-width: 1024px) {
+        font-size: 8px;
+        line-height: 9px;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .icon {
+        width: 12px;
+        height: 12px;
+        color: $primary-dark;
+      }
+    }
+
+        .page_number_btn {
+      font-weight: 400;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: $primary-color;
+      transition: all 0.2s ease;
+
+ 
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &.active {
+        color: $primary-dark;
+    
+      }
+
+      .icon {
+        width: 12px;
+        height: 12px;
+        color: $primary-dark;
+      }
+    }
+  }
+}
