@@ -9,7 +9,7 @@ $primary: #545F7D;
  box-shadow: 3px 5px 20px 0px rgba(0, 0, 0, 0.04);
     overflow-x: auto;
     position: relative;
-    min-height: 400px;
+    max-height: 500px;
 }
 
 .table {
@@ -53,11 +53,6 @@ cursor: pointer;
     width: 16px;
     height: 16px;
   }
-}
-
-.tbody {
-  max-height: 336px;
-  overflow-y: auto;
 }
 
 
@@ -106,4 +101,31 @@ cursor: pointer;
 
 .ellipsis{
   cursor: pointer;
+}
+
+
+
+.dropdown {
+  position: fixed;
+  min-width: 160px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+}
+
+.dropdownItem {
+  padding: 0.8rem 1.2rem;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 500;
+color: $primary;
+
 }

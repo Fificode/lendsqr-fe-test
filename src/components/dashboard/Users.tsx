@@ -1,110 +1,229 @@
-import styles from "../../scss/dashboard/users.module.scss"
-import tableStyles from "../../scss/dashboard/users.table.module.scss"
-import UsersStats from "./users/UsersStats"
-import { userStatsData } from "../../utils/dummy-data/userStats"
-import type { userStats } from "../../types/userStats"
-import UsersTable from "./users/UsersTable"
-import { headers, data } from "../../utils/dummy-data/userList"
-import type { UserList } from "../../types/userLists"
-import Ellipsis from "../../assets/images/ellipsis.svg?react"
-import Pagination from "./users/Pagination"
-import { usePagination } from "../../utils/custom-hooks/usePagination"
+import styles from "../../scss/dashboard/users.module.scss";
+import tableStyles from "../../scss/dashboard/users.table.module.scss";
+import UsersStats from "./users/UsersStats";
+import { userStatsData } from "../../utils/dummy-data/userStats";
+import type { userStats } from "../../types/userStats";
+import UsersTable from "./users/UsersTable";
+import { headers, data } from "../../utils/dummy-data/userList";
+import type { UserList } from "../../types/userLists";
+import Ellipsis from "../../assets/images/ellipsis.svg?react";
+import Pagination from "./users/Pagination";
+import { usePagination } from "../../utils/custom-hooks/usePagination";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ViewIcon from "../../assets/images/view.svg?react";
+import BlackListIcon from "../../assets/images/blacklist-user.svg?react";
+import ActivateIcon from "../../assets/images/activate-user.svg?react";
 
+type UserRowRefs = {
+  button: HTMLButtonElement | null;
+  dropdown: HTMLDivElement | null;
+};
 
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const renderRowUser = (
   item: UserList,
   rowClass: string,
-  onClick: (user: UserList) => void
+  openUserId: string | null,
+  dropdownCoords: { top: number; left: number },
+  onEllipsisClick: (id: string, e: React.MouseEvent<HTMLButtonElement>) => void,
+  onViewDetails: (id: string) => void,
+  dropdownRef: React.RefObject<HTMLDivElement | null>,
+  elementRefs: React.RefObject<Record<string, UserRowRefs>>
+
 ) => {
   const statusClass =
-  tableStyles[item.status.toLowerCase() as keyof typeof tableStyles];
+    tableStyles[item.status.toLowerCase() as keyof typeof tableStyles];
 
   return (
     <tr key={item.id} className={rowClass}>
-      <td className={tableStyles.td}>
-        {item.company}
-      </td>
+      <td className={tableStyles.td}>{item.company}</td>
 
-      <td className={tableStyles.td}>
-        {item.username}
-      </td>
+      <td className={tableStyles.td}>{item.username}</td>
 
-      <td className={`${tableStyles.td} ${tableStyles.email}`}>
-        {item.email}
-      </td>
+      <td className={`${tableStyles.td} ${tableStyles.email}`}>{item.email}</td>
 
-      <td className={tableStyles.td}>
-        {item.phone}
-      </td>
+      <td className={tableStyles.td}>{item.phone}</td>
 
       <td className={tableStyles.td}>
         {new Date(item.date_joined).toLocaleDateString()}
       </td>
 
       <td className={tableStyles.td}>
-        <span
-    className={`${tableStyles.status} ${statusClass}`}
-  >
-    {item.status}
-  </span>
+        <span className={`${tableStyles.status} ${statusClass}`}>
+          {item.status}
+        </span>
       </td>
 
-      <td
-       className={`${tableStyles.td} ${tableStyles.ellipsis}`}
-        onClick={() => onClick(item)}
-      >
-        <Ellipsis/>
+      <td className={`${tableStyles.td} ${tableStyles.ellipsis}`}>
+        <button
+          type="button"
+          ref={(el) => {
+  if (!elementRefs.current[item.id]) {
+    elementRefs.current[item.id] = {
+      button: null,
+      dropdown: null,
+    };
+  }
+  elementRefs.current[item.id].button = el;
+}}
+
+          onClick={(e) => onEllipsisClick(item.id, e)}
+        >
+          <Ellipsis />
+        </button>
       </td>
+      {openUserId === item.id &&
+       (
+          <div
+          ref={dropdownRef}
+      className={tableStyles.dropdown}
+      style={{
+        position: "fixed",
+        top: dropdownCoords.top,
+        left: dropdownCoords.left,
+      }}
+          >
+            <button
+              type="button"
+              onClick={() => onViewDetails(item.id)}
+              className={tableStyles.dropdownItem}
+            >
+              <ViewIcon /> View Details
+            </button>
+            <button type="button" className={tableStyles.dropdownItem}>
+              <BlackListIcon /> Blacklist User
+            </button>
+            <button type="button" className={tableStyles.dropdownItem}>
+              <ActivateIcon /> Activate User
+            </button>
+          </div>
+        )}
     </tr>
   );
 };
 
 const Users = () => {
-  const { 
-    currentPage, 
-    setCurrentPage, 
-    pages, 
-    totalPages, 
-    startIndex, 
-    endIndex 
+  const navigate = useNavigate();
+const [openUserId, setOpenUserId] = useState<string | null>(null);
+
+const [dropdownCoords, setDropdownCoords] = useState({
+  top: 0,
+  left: 0,
+});
+
+const dropdownRef = useRef<HTMLDivElement | null>(null);;
+const elementRefs = useRef<Record<string, UserRowRefs>>({});
+
+
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pages,
+    totalPages,
+    startIndex,
+    endIndex,
   } = usePagination({ totalItems: 500, itemsPerPage: 10 });
   const paginatedData = userStatsData.slice(startIndex, endIndex);
-  const handleClick = (user: UserList) => {
-     console.log(user);
+
+  const handleEllipsisClick = (
+  id: string,
+  e: React.MouseEvent<HTMLButtonElement>
+) => {
+  e.stopPropagation();
+
+  const rect = e.currentTarget.getBoundingClientRect();
+
+  setDropdownCoords({
+    top: rect.bottom + window.scrollY,
+    left: rect.left + window.scrollX - 140,
+  });
+
+  setOpenUserId((prev) => (prev === id ? null : id));
+};
+
+
+
+  const handleViewDetails = (userId: string) => {
+    navigate(`/users/${userId}`);
+    setOpenUserId(null);
   };
+
+  //Close dropdown when clicked outside
+  useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (!openUserId) return;
+
+    const refs = elementRefs.current[openUserId];
+    if (!refs) return;
+
+    if (
+      refs.dropdown?.contains(e.target as Node) ||
+      refs.button?.contains(e.target as Node)
+    ) {
+      return; 
+    }
+
+    setOpenUserId(null);
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, [openUserId]);
+
+
+
+
+
   return (
     <div className={styles.users_container}>
       <h1 className={styles.heading}>Users</h1>
       {/* Users Stats */}
       <section className={`${styles.user_stats_container} custom-scrollbar`}>
-{
- paginatedData.map((user: userStats) => ( 
-  <UsersStats key={user.id} title={user.title} icon={user.icon} iconColor={user.iconColor} value={user.value}/>
- )) 
-}
+        {paginatedData.map((user: userStats) => (
+          <UsersStats
+            key={user.id}
+            title={user.title}
+            icon={user.icon}
+            iconColor={user.iconColor}
+            value={user.value}
+          />
+        ))}
       </section>
       {/* Users List */}
       <section className={styles.table_container}>
-<UsersTable  headers={headers}
-  data={data}
-  renderRow={(item, _index, rowClass) =>
-    renderRowUser(item, rowClass, handleClick)
-                }/>
+        <UsersTable
+          headers={headers}
+          data={data}
+          renderRow={(item, _index, rowClass) =>
+            renderRowUser(
+           item,
+  rowClass,
+  openUserId,
+  dropdownCoords,
+  handleEllipsisClick,  
+  handleViewDetails,    
+  dropdownRef,         
+  // ellipsisRef,
+  elementRefs  
+            )
+          }
+        />
       </section>
       {/* Pagination */}
       <section>
         <Pagination
-        currentPage={currentPage}
-        totalItems={500}
-        totalPages={totalPages}
-        pages={pages}
-        setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          totalItems={500}
+          totalPages={totalPages}
+          pages={pages}
+          setCurrentPage={setCurrentPage}
         />
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;
