@@ -13,7 +13,7 @@
 
 .body {
   display: flex;
-  flex: 1;
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -22,7 +22,7 @@
   flex: 1;
   padding: 3rem;
   overflow-y: auto;
-  background-color: #f5f7fa;
+  background-color: #FBFBFB;
 
   @media (max-width: 768px) {
     padding: 2rem 1.5rem;

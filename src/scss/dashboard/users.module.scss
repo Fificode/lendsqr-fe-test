@@ -1,4 +1,3 @@
-$backgroud-primary: #FBFBFB;
 $primary: #213F7D;
 $border-primary: rgba(33, 63, 125, 0.06);
 $secondary: #545F7D;
@@ -34,6 +33,7 @@ $secondary: #545F7D;
     width: 100%;
     display: flex;
     flex-direction: row;
+    gap: 1.2rem;
     justify-content: flex-start;
     flex-wrap: nowrap;
 overflow-x: auto;
