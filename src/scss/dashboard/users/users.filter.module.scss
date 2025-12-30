@@ -1,0 +1,81 @@
+$primary: #545f7d;
+
+.filter {
+  position: absolute;
+  top: 38rem; // just under table header
+  left: 0;
+  width: 270px;
+  overflow-y: auto;
+  height: 300px;
+  background: #fff;
+  padding: 1.6rem;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+   font-family: var(--font-work-sans);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+
+  label {
+    font-size: 1.2rem;
+    color: #545f7d;
+  }
+
+  input,
+  select {
+    height: 40px;
+    padding: 0 1rem;
+    border: 1px solid rgba(33, 63, 125, 0.2);
+    border-radius: 4px;
+  }
+}
+
+.dateInput {
+  position: relative;
+
+  input {
+    width: 100%;
+  }
+
+  .calendarIcon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: url("/calendar.svg") no-repeat center;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.6rem;
+
+  button {
+    height: 40px;
+    width: 48%;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+}
+
+.reset {
+  background: #fff;
+  border: 1px solid #545f7d;
+  color: #545f7d;
+  text-align: center;
+}
+
+.filterBtn {
+  text-align: center;
+  background: #39CDCC;
+  border: none;
+  color: #fff;
+}

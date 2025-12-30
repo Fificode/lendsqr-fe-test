@@ -45,18 +45,19 @@ display: table;
   align-items: flex-start; 
   gap: 0.6rem;
 }
+
+}
+
+
 .fiter_button{
 cursor: pointer;
 }
 
   .filter{
+    cursor: pointer;
     width: 16px;
     height: 16px;
   }
-}
-
-
-
 .td {
   padding: 1.5rem 0.5rem;
 

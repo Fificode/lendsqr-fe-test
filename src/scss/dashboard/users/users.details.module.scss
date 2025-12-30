@@ -1,0 +1,11 @@
+.container
+{
+    width: 100%;
+    max-width: 100%;
+    padding: 8rem 0rem 4rem 0rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
+    font-family: var(--font-work-sans);
+}

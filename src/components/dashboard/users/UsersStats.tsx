@@ -1,4 +1,4 @@
-import styles from "../../../scss/dashboard/users.module.scss"
+import styles from "../../../scss/dashboard/users/users.module.scss"
 
 type UserStatsProps = {
 title: string;

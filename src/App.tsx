@@ -6,6 +6,7 @@ import DashboardLayout from './pages/DashboardLayout'
 import Users from './components/dashboard/Users'
 import PrivateRoute from './PrivateRoute'
 import PageNotFound from './PageNotFound'
+import UserDetails from './components/dashboard/UserDetails'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
     <Route element={<PrivateRoute />}>
      <Route path="/dashboard" element={<DashboardLayout />}>
 <Route path='/dashboard/users' element={<Users />}/> 
+  <Route path="/dashboard/users/:id" element={<UserDetails />} />
 <Route index element={<Navigate to="users" replace />} />
   </Route>
   </Route>
