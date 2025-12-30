@@ -112,3 +112,67 @@ button {
     border: 1px solid #fbfbfb;
   }
 }
+
+.not-found-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f9fafb;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  padding: 0 20px;
+
+  .content {
+    max-width: 500px;
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 900;
+      color: $blue-primary;
+      margin: 0;
+      line-height: 1;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .divider {
+      width: 60px;
+      height: 4px;
+      background-color: $blue-primary;
+      margin: 20px auto;
+      border-radius: 2px;
+    }
+
+    .error-message {
+      font-size: 1.8rem;
+      color: "#300";
+      margin-bottom: 1rem;
+    }
+
+    .description {
+      color: "#fff";
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .home-button {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: $blue-primary;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.2s, background-color 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}

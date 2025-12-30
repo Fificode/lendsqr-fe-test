@@ -13,7 +13,6 @@ import Ellipsis from "../../assets/images/ellipsis.svg?react"
 // eslint-disable-next-line react-refresh/only-export-components
 export const renderRowUser = (
   item: UserList,
-  index: number,
   rowClass: string,
   onClick: (user: UserList) => void
 ) => {
@@ -80,8 +79,8 @@ const Users = () => {
       <section className={styles.table_container}>
 <UsersTable  headers={headers}
   data={data}
-  renderRow={(item, index, rowClass) =>
-    renderRowUser(item, index, rowClass, handleClick)
+  renderRow={(item, _index, rowClass) =>
+    renderRowUser(item, rowClass, handleClick)
                 }/>
       </section>
     </div>
