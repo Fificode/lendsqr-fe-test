@@ -11,7 +11,7 @@ const UserDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // Find the user that matches the ID in the URL
+  // Find user that matches the ID in the URL
   const user = data.find((item) => String(item.id) === id);
 
   // When user isn't found
@@ -87,10 +87,8 @@ const UserDetails = () => {
 </div>
 
 </section>
+  <Outlet context={user} />
 
-<section className={styles.tab_content}>
-  <Outlet />
-</section>
     </div>
   );
 };
