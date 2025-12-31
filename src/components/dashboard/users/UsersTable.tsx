@@ -6,7 +6,7 @@ interface TableProps<T> {
   headers: { id: number; label: string }[];
   data: T[];
   openFilter: () => void;
-  renderRow: (item: T, index: number, rowClass: string) => React.ReactNode;
+  renderRow: (item: T, index: number) => React.ReactNode;
   boxClassName?: string;
   //   isLoadingData?: boolean;
   //   isError?: boolean;
@@ -52,7 +52,7 @@ const UsersTable = <T,>({
           <tbody className={styles.tbody}>
             {data.length > 0 &&
               data.map((item, index) =>
-                renderRow(item, index, index !== headers.length + 1 ? styles.striped : "")
+                renderRow(item, index)
               )}
 
             {/* {isLoadingData && (

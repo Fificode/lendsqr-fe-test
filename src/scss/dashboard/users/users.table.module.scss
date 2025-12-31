@@ -20,6 +20,12 @@ display: table;
   border-radius: 4px;
   border-collapse: collapse;
     font-family: var(--font-work-sans);
+tr{
+  border-bottom: 1px solid #e5e7eb;
+}
+     tr:last-child {
+    border-bottom: none;
+  }
 }
 
 
@@ -68,9 +74,6 @@ cursor: pointer;
   white-space: nowrap;
 }
 
-.striped{
-  border-bottom: 1px solid #e5e7eb;
-}
 
 .status {
   padding: 0.4rem 0.8rem;

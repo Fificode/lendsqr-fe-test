@@ -27,7 +27,6 @@ type UserRowRefs = {
 // eslint-disable-next-line react-refresh/only-export-components
 export const renderRowUser = (
   item: UserList,
-  rowClass: string,
   openUserId: string | null,
   dropdownCoords: { top: number; left: number },
   onEllipsisClick: (id: string, e: React.MouseEvent<HTMLButtonElement>) => void,
@@ -39,7 +38,7 @@ export const renderRowUser = (
     tableStyles[item.status.toLowerCase() as keyof typeof tableStyles];
 
   return (
-    <tr key={item.id} className={rowClass}>
+    <tr key={item.id} >
       <td className={tableStyles.td}>{item.company}</td>
 
       <td className={tableStyles.td}>{item.username}</td>
@@ -226,10 +225,9 @@ setDropdownCoords({
           headers={headers}
           data={data}
           openFilter={() => setIsFilterOpen((prev) => !prev)}
-          renderRow={(item, _index, rowClass) =>
+          renderRow={(item, ) =>
             renderRowUser(
               item,
-              rowClass,
               openUserId,
               dropdownCoords,
               handleEllipsisClick,

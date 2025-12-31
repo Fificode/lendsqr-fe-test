@@ -144,7 +144,11 @@ $hover-primary: rgba(57, 205, 204, 0.08);
   color: $button-primary;
   font-size: 1.2rem;
   font-weight: 400;
+    @media (max-width: 768px) {
+       margin-bottom: 3rem;
   }
+  }
+
 }
 .bottombarButton {
   display: flex;

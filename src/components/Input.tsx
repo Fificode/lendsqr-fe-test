@@ -27,6 +27,7 @@ const Input = ({
         value={value}
         name={name}
         onChange={handleValue}
+        autoComplete="off"
         
       />
       {name === "password" && (
