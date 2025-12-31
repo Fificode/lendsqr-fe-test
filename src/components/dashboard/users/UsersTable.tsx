@@ -1,6 +1,7 @@
 import styles from "../../../scss/dashboard/users/users.table.module.scss";
 import Filter from "../../../assets/images/filter.svg?react"
 
+
 interface TableProps<T> {
   headers: { id: number; label: string }[];
   data: T[];
@@ -21,6 +22,8 @@ const UsersTable = <T,>({
   //   isError,
   //   error
 }: TableProps<T>) => {
+ 
+
   return (
     <div  className={`${styles.tableWrapper} custom-scrollbar`}>
         <table className={styles.table}>
@@ -36,7 +39,7 @@ const UsersTable = <T,>({
                     <div className={styles.thContent}>
                   <span>{header.label}</span>
                    {index !== headers.length - 1 && (
-      <button onClick={openFilter} type="button" className={styles.filter_button}>
+      <button onClick={openFilter} type="button" className={`${styles.filter_button} js-filter-button`}>
         <Filter className={styles.filter} />
       </button>
     )}

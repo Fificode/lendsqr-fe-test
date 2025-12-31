@@ -1,4 +1,6 @@
 import styles from "../../../scss/dashboard/users/users.filter.module.scss";
+import ArrowDown from "../../../assets/images/arrow-down.svg?react";
+import Calendar from "../../../assets/images/calendar.svg?react"
 
 type Props = {
   onClose: () => void;
@@ -8,16 +10,22 @@ type Props = {
 
 const UsersFilter = ({ onReset, onApply }: Props) => {
   return (
-    <div className={`${styles.filter} custom-scrollbar`}>
+    <div>
       {/* Organization */}
-      <div className={styles.field}>
-        <label>Organization</label>
-        <select>
-          <option value="">Select</option>
-          <option value="lendsqr">Lendsqr</option>
-          <option value="irorun">Irorun</option>
-        </select>
-      </div>
+     <div className={styles.field}>
+  <label>Organization</label>
+
+  <div className={styles.selectWrapper}>
+    <select>
+      <option value="">Select</option>
+      <option value="lendsqr">Lendsqr</option>
+      <option value="irorun">Irorun</option>
+    </select>
+<ArrowDown className={styles.arrow}/>
+
+  </div>
+</div>
+
 
       {/* Username */}
       <div className={styles.field}>
@@ -36,7 +44,7 @@ const UsersFilter = ({ onReset, onApply }: Props) => {
         <label>Date</label>
         <div className={styles.dateInput}>
           <input type="date" />
-          <span className={styles.calendarIcon} />
+          <Calendar className={styles.calendarIcon}/>
         </div>
       </div>
 
@@ -49,6 +57,7 @@ const UsersFilter = ({ onReset, onApply }: Props) => {
       {/* Status */}
       <div className={styles.field}>
         <label>Status</label>
+        <div className={styles.selectWrapper}>
         <select>
           <option value="">Select</option>
           <option value="active">Active</option>
@@ -56,6 +65,8 @@ const UsersFilter = ({ onReset, onApply }: Props) => {
           <option value="blacklisted">Blacklisted</option>
           <option value="pending">Pending</option>
         </select>
+        <ArrowDown className={styles.arrow}/>
+        </div>
       </div>
 
       {/* Buttons */}

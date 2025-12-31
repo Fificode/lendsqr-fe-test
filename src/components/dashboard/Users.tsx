@@ -9,12 +9,15 @@ import type { UserList } from "../../types/userLists";
 import Ellipsis from "../../assets/images/ellipsis.svg?react";
 import Pagination from "./users/Pagination";
 import { usePagination } from "../../utils/custom-hooks/usePagination";
-import { useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ViewIcon from "../../assets/images/view.svg?react";
 import BlackListIcon from "../../assets/images/blacklist-user.svg?react";
 import ActivateIcon from "../../assets/images/activate-user.svg?react";
 import UsersFilter from "./users/UsersFilter";
+import filterStyle from "../../scss/dashboard/users/users.filter.module.scss"
+import { useClickOutside } from "../../utils/custom-hooks/useClickOutside";
+import { createPortal } from "react-dom";
 
 type UserRowRefs = {
   button: HTMLButtonElement | null;
@@ -72,9 +75,14 @@ export const renderRowUser = (
           <Ellipsis />
         </button>
       </td>
-      {openUserId === item.id && (
+      {openUserId === item.id &&  createPortal(
         <div
-          ref={dropdownRef}
+        ref={(el) => {
+      if (dropdownRef) (dropdownRef as React.RefObject<HTMLDivElement | null>).current = el;
+      if (elementRefs.current[item.id]) {
+        elementRefs.current[item.id].dropdown = el;
+      }
+    }}
           onClick={(e) => e.stopPropagation()}
           className={tableStyles.dropdown}
           style={{
@@ -96,7 +104,7 @@ export const renderRowUser = (
           <button type="button" className={tableStyles.dropdownItem}>
             <ActivateIcon /> Activate User
           </button>
-        </div>
+        </div>, document.body
       )}
     </tr>
   );
@@ -113,7 +121,7 @@ const Users = () => {
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const elementRefs = useRef<Record<string, UserRowRefs>>({});
-
+  const filterRef = useRef<HTMLDivElement | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const {
@@ -126,6 +134,13 @@ const Users = () => {
   } = usePagination({ totalItems: 500, itemsPerPage: 10 });
   const paginatedData = userStatsData.slice(startIndex, endIndex);
 
+  useEffect(() => {
+  const handleScroll = () => setOpenUserId(null);
+  // Listen to the window AND the table container for scrolling
+  window.addEventListener("scroll", handleScroll, true);
+  return () => window.removeEventListener("scroll", handleScroll, true);
+}, [openUserId]);
+
   const handleEllipsisClick = (
     id: string,
     e: React.MouseEvent<HTMLButtonElement>
@@ -133,11 +148,12 @@ const Users = () => {
     e.stopPropagation();
 
     const rect = e.currentTarget.getBoundingClientRect();
-
-    setDropdownCoords({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX - 140,
-    });
+setDropdownCoords({
+    // Viewport coordinates only
+    top: rect.bottom, 
+    left: rect.left - 140, 
+  });
+ 
 
     setOpenUserId((prev) => (prev === id ? null : id));
   };
@@ -152,26 +168,33 @@ const Users = () => {
   };
 
   //Close dropdown when clicked outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!openUserId) return;
+  useClickOutside(
+  () => {
+    if (!openUserId) return [];
 
-      const refs = elementRefs.current[openUserId];
-      if (!refs) return;
+    const refs = elementRefs.current[openUserId];
+    if (!refs) return [];
 
-      if (
-        refs.dropdown?.contains(e.target as Node) ||
-        refs.button?.contains(e.target as Node)
-      ) {
-        return;
-      }
+    return [refs.dropdown, refs.button];
+  },
+  Boolean(openUserId),
+  () => setOpenUserId(null)
+);
 
-      setOpenUserId(null);
-    };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [openUserId]);
+
+  //Close filter modal when clicked outside
+  useClickOutside(
+  () => [filterRef.current], 
+  isFilterOpen,
+  () => setIsFilterOpen(false),
+  "js-filter-button" 
+);
+
+
+
+
+  
 
   return (
     <div style={{ position: "relative" }} className={styles.users_container}>
@@ -191,11 +214,13 @@ const Users = () => {
       {/* Users List */}
       <section className={styles.table_container}>
         {isFilterOpen && (
+          <div ref={filterRef}   className={`${filterStyle.filter} custom-scrollbar`}>
           <UsersFilter
             onClose={() => setIsFilterOpen(false)}
             onReset={() => console.log("reset")}
             onApply={() => console.log("apply filter")}
           />
+          </div>
         )}
         <UsersTable
           headers={headers}

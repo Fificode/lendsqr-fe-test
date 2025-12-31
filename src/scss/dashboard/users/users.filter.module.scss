@@ -1,14 +1,16 @@
 $primary: #545f7d;
+$border-primary: rgba(33, 63, 125, 0.2);
+$green-primary: #39cdcc;
 
 .filter {
   position: absolute;
-  top: 38rem; // just under table header
-  left: 0;
+  top: 38rem; 
+  left: 1rem;
   width: 270px;
   overflow-y: auto;
   height: 300px;
   background: #fff;
-  padding: 1.6rem;
+  padding: 3rem 1.6rem 2rem 1.6rem;
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   z-index: 200;
@@ -19,63 +21,138 @@ $primary: #545f7d;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.8rem;
 
-  label {
-    font-size: 1.2rem;
-    color: #545f7d;
+  
+  input{
+    height: 40px;
+    padding: 0.5rem 1rem;
+    border: 1px solid $border-primary;
+    border-radius: 8px;
+    outline: none;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: $primary;
+    
+  }
+ 
+  
+}
+label {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: $primary;
   }
 
-  input,
+  input:focus-visible, select:focus-visible {
+  outline: 1px solid $green-primary;
+  outline-offset: 1px;
+}
+input::placeholder{
+  font-size: 1.2rem;
+    font-weight: 400;
+    color: $primary;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+
   select {
+    width: 100%;
     height: 40px;
-    padding: 0 1rem;
-    border: 1px solid rgba(33, 63, 125, 0.2);
-    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    border: 1px solid $border-primary;
+    border-radius: 8px;
+    outline: none;
+    appearance: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    font-weight: 400;
+    color: $primary;
   }
 }
+
+.arrow {
+  position: absolute;
+  right: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; 
+  width: 12px;
+  height: 12px;
+  color: $border-primary;
+}
+
 
 .dateInput {
   position: relative;
+  width: 100%;
 
   input {
     width: 100%;
-  }
+    padding: 1.2rem 4rem 1.2rem 1.4rem;
+    font-size: 1.4rem;
+    border: 1px solid $border-primary;
+    border-radius: 8px;
+    color: $primary;
+    cursor: pointer;
 
-  .calendarIcon {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    background: url("/calendar.svg") no-repeat center;
+    /* Hide native calendar icon */
+    appearance: none;
+    -webkit-appearance: none;
+
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #213f7d;
+    }
   }
 }
 
+.calendarIcon {
+  position: absolute;
+  right: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; 
+  width: 16px;
+  height: 16px;
+  color: $primary;
+}
+
+
 .actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1.4rem;
   margin-top: 1.6rem;
 
   button {
-    height: 40px;
-    width: 48%;
-    border-radius: 4px;
+    width: auto;
+    padding: 1.2rem 3rem;
     font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
   }
 }
 
 .reset {
   background: #fff;
-  border: 1px solid #545f7d;
-  color: #545f7d;
+  border: 1px solid $primary;
+  color: $primary;
   text-align: center;
+  border-radius: 4px;
 }
 
 .filterBtn {
   text-align: center;
-  background: #39CDCC;
+  background: $green-primary;
   border: none;
   color: #fff;
+  border-radius: 8px;
 }
