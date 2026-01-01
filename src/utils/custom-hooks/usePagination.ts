@@ -1,19 +1,28 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 
 interface UsePaginationProps {
   totalItems: number;
   itemsPerPage: number;
-  initialPage?: number;
 }
 
 export const usePagination = ({
   totalItems,
   itemsPerPage,
-  initialPage = 1,
 }: UsePaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const setCurrentPage = (page: number | ((prev: number) => number)) => {
+    const nextPage = typeof page === "function" ? page(currentPage) : page;
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", nextPage.toString());
+    setSearchParams(newParams);
+  };
 
   const pages = useMemo(() => {
     const pagesArray: (number | string)[] = [];
@@ -40,7 +49,7 @@ export const usePagination = ({
 
   return {
     currentPage,
-    setCurrentPage,
+    setCurrentPage, 
     totalPages,
     pages,
     startIndex: (currentPage - 1) * itemsPerPage,

@@ -8,8 +8,8 @@ import type { UserList } from "../../types/userLists";
 import Ellipsis from "../../assets/images/ellipsis.svg?react";
 import Pagination from "./users/Pagination";
 import { usePagination } from "../../utils/custom-hooks/usePagination";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ViewIcon from "../../assets/images/view.svg?react";
 import BlackListIcon from "../../assets/images/blacklist-user.svg?react";
 import ActivateIcon from "../../assets/images/activate-user.svg?react";
@@ -20,6 +20,7 @@ import { createPortal } from "react-dom";
 import { useUsers } from "../../store/queries/users";
 import { userStatsData } from "../../utils/dummy-data/userStats";
 import { format } from "date-fns";
+import type { UserFilter } from "../../types/userFilter";
 
 type UserRowRefs = {
   button: HTMLButtonElement | null;
@@ -122,6 +123,15 @@ export const renderRowUser = (
   );
 };
 
+const EMPTY_FILTERS: UserFilter = {
+  organization: "",
+  username: "",
+  email: "",
+  date: "",
+  phone: "",
+  status: "",
+};
+
 const Users = () => {
   const navigate = useNavigate();
   const { data: usersData, isLoading, isError, error } = useUsers();
@@ -136,21 +146,11 @@ const Users = () => {
   const elementRefs = useRef<Record<string, UserRowRefs>>({});
   const filterRef = useRef<HTMLDivElement | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const {
-    currentPage,
-    setCurrentPage,
-    pages,
-    totalPages,
-    startIndex,
-    endIndex,
-  } = usePagination({ totalItems: 500, itemsPerPage: 10 });
-
-  const paginatedData = usersData?.slice(startIndex, endIndex);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const handleScroll = () => setOpenUserId(null);
-    // Listen to the window AND the table container for scrolling
+    // Listen to the window and the table container for scrolling
     window.addEventListener("scroll", handleScroll, true);
     return () => window.removeEventListener("scroll", handleScroll, true);
   }, [openUserId]);
@@ -193,13 +193,69 @@ const Users = () => {
     () => setOpenUserId(null)
   );
 
-  //Close filter modal when clicked outside
-  useClickOutside(
-    () => [filterRef.current],
-    isFilterOpen,
-    () => setIsFilterOpen(false),
-    "js-filter-button"
-  );
+  // List of organizations
+  const organizations = useMemo<string[]>(() => {
+    if (!usersData) return [];
+    const names = usersData
+      .map((user: UserList) => user.company)
+      .filter(Boolean) as string[];
+
+    return Array.from(new Set(names)).sort();
+  }, [usersData]);
+
+  const appliedFilters = useMemo(() => {
+    return {
+      ...EMPTY_FILTERS,
+      ...Object.fromEntries(searchParams.entries()),
+    } as UserFilter;
+  }, [searchParams]);
+
+  const filteredData = useMemo(() => {
+    if (!usersData) return [];
+    return usersData.filter((user: UserList) => {
+      return (
+        (!appliedFilters.organization ||
+          user.company === appliedFilters.organization) &&
+        (!appliedFilters.username ||
+          user.username
+            .toLowerCase()
+            .includes(appliedFilters.username.toLowerCase())) &&
+        (!appliedFilters.email ||
+          user.email
+            .toLowerCase()
+            .includes(appliedFilters.email.toLowerCase())) &&
+        (!appliedFilters.date ||
+          user.date_joined.startsWith(appliedFilters.date)) &&
+        (!appliedFilters.phone || user.phone.includes(appliedFilters.phone)) &&
+        (!appliedFilters.status ||
+          user.status.toLowerCase() === appliedFilters.status.toLowerCase())
+      );
+    });
+  }, [usersData, appliedFilters]);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pages,
+    totalPages,
+    startIndex,
+    endIndex,
+  } = usePagination({ totalItems: filteredData.length, itemsPerPage: 10 });
+  const paginatedData = filteredData?.slice(startIndex, endIndex);
+
+  const handleApplyFilter = (draft: UserFilter) => {
+    const cleanParams = Object.fromEntries(
+      Object.entries(draft).filter(([, value]) => value !== "")
+    );
+
+    setSearchParams({ ...cleanParams, page: "1" });
+    setIsFilterOpen(false);
+  };
+
+  const handleReset = () => {
+    setSearchParams({ page: "1" });
+    setIsFilterOpen(false);
+  };
 
   return (
     <div style={{ position: "relative" }} className={styles.users_container}>
@@ -224,9 +280,11 @@ const Users = () => {
             className={`${filterStyle.filter} custom-scrollbar`}
           >
             <UsersFilter
+              filters={appliedFilters}
+              organizations={organizations}
               onClose={() => setIsFilterOpen(false)}
-              onReset={() => console.log("reset")}
-              onApply={() => console.log("apply filter")}
+              onReset={handleReset}
+              onApply={handleApplyFilter}
             />
           </div>
         )}
@@ -254,7 +312,7 @@ const Users = () => {
       <section>
         <Pagination
           currentPage={currentPage}
-          totalItems={500}
+          totalItems={filteredData.length}
           totalPages={totalPages}
           pages={pages}
           setCurrentPage={setCurrentPage}
