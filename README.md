@@ -117,16 +117,17 @@ src/
 - Follow the steps below to run the project locally.
 
 ### Prerequisites
-- Make sure you have the following installed on your machine:
+Make sure you have the following installed on your machine:
 * Node.js (v18 or later recommended)
 * npm (comes with Node.js)
 * Git
 
-- You can verify your setup by running:
-` node -v
+You can verify your setup by running:
+``` bash 
+node -v
 npm -v
 git --version
-`
+```
 
 ### Installation
 1. 
