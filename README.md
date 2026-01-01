@@ -10,7 +10,7 @@ This repository contains the codes for the client side of the Lendsqr front-end 
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [Screenshots](#screenshots)
+
 
 ## Technologies Used
 - React.js + Vite - A modern React setup powered by Vite for fast development, instant hot module replacement, and optimized production builds.
@@ -122,7 +122,7 @@ Make sure you have the following installed on your machine:
 * npm (comes with Node.js)
 * Git
 
-You can verify your setup by running:
+You can verify your setup by running this in your terminal:
 ``` bash 
 node -v
 npm -v
@@ -130,8 +130,31 @@ git --version
 ```
 
 ### Installation
-1. 
+1. Clone the repository
+``` bash
+git clone https://github.com/Fificode/lendsqr-fe-test.git
 
-## Screenshots
+```
+
+2. Navigate into the project directory
+``` bash
+cd lendsqr-fe-test
+```
+
+3. Install dependencies
+``` bash
+npm install
+```
+
+### Running the Project
+Start the development server:
+``` bash
+npm run dev
+```
+The application will be available at:
+``` bash
+http://localhost:5173
+```
+
 
 
