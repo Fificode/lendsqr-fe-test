@@ -40,134 +40,78 @@ This repository contains the codes for the client side of the Lendsqr front-end 
 ## Project Structure
 
 ```bash
-├───public
-│       logo.svg
-│
-└───src
-    │   App.tsx
-    │   index.scss
-    │   main.tsx
-    │   PageNotFound.tsx
-    │   PrivateRoute.tsx
-    │   vite-env.d.ts
-    │
-    ├───api
-    │       axios.ts
-    │       users.ts
-    │
-    ├───assets
-    │   ├───fonts
-    │   │       AvenirNext-Bold.otf
-    │   │       AvenirNext-Medium.otf
-    │   │       AvenirNext-Regular.otf
-    │   │
-    │   └───images
-    │           activate-user.svg
-    │           active-users.svg
-    │           all-users.svg
-    │           arrow-back.svg
-    │           arrow-down.svg
-    │           arrow-left.svg
-    │           arrow-right.svg
-    │           avatar.png
-    │           badge-percent.svg
-    │           bell.svg
-    │           blacklist-user.svg
-    │           briefcase.svg
-    │           calendar.svg
-    │           chart-bar.svg
-    │           clipboard-list.svg
-    │           coins-solid.svg
-    │           coins.svg
-    │           decision.svg
-    │           dropdown-profile.svg
-    │           ellipsis.svg
-    │           filter.svg
-    │           galaxy.svg
-    │           guarantors.svg
-    │           home.svg
-    │           karma.svg
-    │           lendsqr-logo.png
-    │           loan-request.svg
-    │           money-sack.svg
-    │           piggy-bank.svg
-    │           react.svg
-    │           savings-product.svg
-    │           scroll.svg
-    │           search.svg
-    │           sign-in-illustration-removebg.png
-    │           sign-in-illustration.png
-    │           sign-out.svg
-    │           sliders.svg
-    │           star-fill.svg
-    │           star-outline.svg
-    │           tire.svg
-    │           transaction.svg
-    │           user-cog.svg
-    │           user-friends.svg
-    │           user.svg
-    │           users-loan.svg
-    │           view.svg
-    │           whitelist.svg
-    │
-    ├───components
-    │   │   Input.tsx
-    │   │
-    │   └───dashboard
-    │       │   Header.tsx
-    │       │   Sidebar.tsx
-    │       │   UserDetails.tsx
-    │       │   Users.tsx
-    │       │
-    │       └───users
-    │               Pagination.tsx
-    │               UserGeneralDetails.tsx
-    │               UserInfoSection.tsx
-    │               UsersFilter.tsx
-    │               UsersStats.tsx
-    │               UsersTable.tsx
-    │
-    ├───pages
-    │       DashboardLayout.tsx
-    │       Login.tsx
-    │
-    ├───scss
-    │   │   dashboardlayout.module.scss
-    │   │   input.module.scss
-    │   │   login.module.scss
-    │   │
-    │   └───dashboard
-    │       │   header.module.scss
-    │       │   pagination.module.scss
-    │       │   sidebar.module.scss
-    │       │
-    │       └───users
-    │               user.general.details.module.scss
-    │               users.details.module.scss
-    │               users.filter.module.scss
-    │               users.module.scss
-    │               users.table.module.scss
-    │
-    ├───store
-    │   └───queries
-    │           users.ts
-    │
-    ├───types
-    │       userFilter.ts
-    │       userLists.ts
-    │       userStats.ts
-    │
-    └───utils
-        │   sidebarTabs.tsx
-        │   userTableHeaders.ts
-        │   userTabs.tsx
-        │
-        ├───custom-hooks
-        │       useClickOutside.ts
-        │       usePagination.ts
-        │
-        └───dummy-data
-                userStats.ts
+public/
+├─ logo.svg                # Lendsqr logo for meta information
+
+src/
+├─ api/                    # API configuration and endpoints
+│  ├─ axios.ts             # Axios instance setup
+│  └─ users.ts             # User-related API requests
+
+├─ assets/                 # Static assets
+│  ├─ fonts/               # Custom font files
+│  └─ images/              # Icons and image assets
+
+├─ components/             # Reusable UI components
+│  ├─ Input.tsx
+│  └─ dashboard/           # Dashboard-specific components
+│     ├─ Header.tsx
+│     ├─ Sidebar.tsx
+│     ├─ Users.tsx
+│     ├─ UserDetails.tsx
+│     └─ users/             # User-related dashboard components
+│        ├─ Pagination.tsx
+│        ├─ UsersFilter.tsx
+│        ├─ UsersStats.tsx
+│        ├─ UsersTable.tsx
+│        ├─ UserInfoSection.tsx
+│        └─ UserGeneralDetails.tsx
+
+├─ pages/                  # Application pages
+│  ├─ DashboardLayout.tsx
+│  └─ Login.tsx
+
+├─ scss/                   # SCSS styles (modular & scoped)
+│  ├─ dashboardlayout.module.scss
+│  ├─ input.module.scss
+│  ├─ login.module.scss
+│  └─ dashboard/
+│     ├─ header.module.scss
+│     ├─ sidebar.module.scss
+│     ├─ pagination.module.scss
+│     └─ users/
+│        ├─ users.module.scss
+│        ├─ users.table.module.scss
+│        ├─ users.filter.module.scss
+│        ├─ users.details.module.scss
+│        └─ user.general.details.module.scss
+
+├─ store/                  # State management & data fetching
+│  └─ queries/
+│     └─ users.ts           # React Query user queries
+
+├─ types/                  # TypeScript type definitions
+│  ├─ userFilter.ts
+│  ├─ userLists.ts
+│  └─ userStats.ts
+
+├─ utils/                  # Utility functions and constants
+│  ├─ sidebarTabs.tsx
+│  ├─ userTabs.tsx
+│  ├─ userTableHeaders.ts
+│  ├─ custom-hooks/         # Reusable custom hooks
+│  │  ├─ useClickOutside.ts
+│  │  └─ usePagination.ts
+│  └─ dummy-data/           # Mock user stats data for development
+│     └─ userStats.ts
+
+├─ App.tsx                 # Root application component
+├─ main.tsx                # Application entry point
+├─ index.scss              # Global styles
+├─ PrivateRoute.tsx        # Protected route logic
+├─ PageNotFound.tsx        # 404 page
+└─ vite-env.d.ts           # Vite environment types
+```
 
 ## Getting Started
 
