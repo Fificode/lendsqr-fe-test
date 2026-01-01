@@ -7,9 +7,9 @@
 This repository contains the codes for the client side of the Lendsqr front-end engineering assessment
 
 ## Table of Contents
-- [Technologies Used](#technologies)
-- [Project Structure](#project)
-- [Getting Started](#usage)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
 - [Screenshots](#screenshots)
 
 ## Technologies Used
