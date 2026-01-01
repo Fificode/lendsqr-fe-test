@@ -45,7 +45,7 @@ export const UserGeneralDetails = () => {
   {user?.guarantors?.map((guarantor, index) => (
   <UserInfoSection
     key={index}
-    title={`Guarantor`}
+   title={index === 0 ? "Guarantor" : ""}
     items={[
       { label: "Full Name", value: guarantor.name },
       { label: "Phone Number", value: guarantor.phone },

@@ -13,7 +13,7 @@ interface InfoSectionProps {
 export const UserInfoSection = ({ title, items }: InfoSectionProps) => {
   return (
     <div className={styles.info_section_wrapper}>
-      <h4 className={styles.section_title}>{title}</h4>
+      {title && <h4 className={styles.section_title}>{title}</h4>}
       <div className={styles.info_grid}>
         {items.map((item, index) => (
           <div key={index} className={styles.info_item}>

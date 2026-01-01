@@ -7,10 +7,9 @@ interface TableProps<T> {
   data: T[];
   openFilter: () => void;
   renderRow: (item: T, index: number) => React.ReactNode;
-  boxClassName?: string;
-  //   isLoadingData?: boolean;
-  //   isError?: boolean;
-  //   error?: Error | null ;
+    isLoadingData?: boolean;
+    isError?: boolean;
+    error?: Error | null ;
 }
 
 const UsersTable = <T,>({
@@ -18,9 +17,9 @@ const UsersTable = <T,>({
   data,
   openFilter,
   renderRow,
-  //   isLoadingData = false,
-  //   isError,
-  //   error
+    isLoadingData = false,
+    isError,
+    error
 }: TableProps<T>) => {
  
 
@@ -50,40 +49,40 @@ const UsersTable = <T,>({
           </thead>
 
           <tbody className={styles.tbody}>
-            {data.length > 0 &&
-              data.map((item, index) =>
+            {data?.length > 0 &&
+              data?.map((item, index) =>
                 renderRow(item, index)
               )}
 
-            {/* {isLoadingData && (
-              <tr className="w-full h-full">
-                <td colSpan={headers.length} className="text-center py-4">
-                  <p className="flex justify-center items-center h-full">
+            {isLoadingData && (
+              <tr className={styles.loading_data_container}>
+                <td colSpan={headers.length}>
+                  <p>
                     Loading...
                   </p>
                 </td>
               </tr>
-            )} */}
+            )}
 
-            {/* {isError && (
-              <tr className="w-full h-full">
-                <td colSpan={headers.length} className="text-center py-4">
-                  <p className="flex justify-center items-center h-full text-red-600">
+            {isError && (
+              <tr className={styles.error_container}>
+                <td colSpan={headers.length}>
+                  <p>
                      {error?.message ?? "Error..."}
                   </p>
                 </td>
               </tr>
-            )} */}
+            )}
 
-            {/* {!isLoadingData && (!data || data.length === 0) && (
-              <tr className="w-full h-full">
-                <td colSpan={headers.length} className="text-center py-4">
-                  <p className="flex justify-center items-center h-full">
+            {!isLoadingData && (!data || data.length === 0) && (
+              <tr className={styles.data_not_found_container}>
+                <td colSpan={headers.length} >
+                  <p>
                     No data found
                   </p>
                 </td>
               </tr>
-            )} */}
+            )}
           </tbody>
         </table>
     </div>

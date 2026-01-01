@@ -1,23 +1,25 @@
 import styles from "../../scss/dashboard/users/users.module.scss";
 import tableStyles from "../../scss/dashboard/users/users.table.module.scss";
 import UsersStats from "./users/UsersStats";
-import { userStatsData } from "../../utils/dummy-data/userStats";
 import type { userStats } from "../../types/userStats";
 import UsersTable from "./users/UsersTable";
-import { headers, data } from "../../utils/dummy-data/userList";
+import { headers } from "../../utils/userTableHeaders";
 import type { UserList } from "../../types/userLists";
 import Ellipsis from "../../assets/images/ellipsis.svg?react";
 import Pagination from "./users/Pagination";
 import { usePagination } from "../../utils/custom-hooks/usePagination";
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ViewIcon from "../../assets/images/view.svg?react";
 import BlackListIcon from "../../assets/images/blacklist-user.svg?react";
 import ActivateIcon from "../../assets/images/activate-user.svg?react";
 import UsersFilter from "./users/UsersFilter";
-import filterStyle from "../../scss/dashboard/users/users.filter.module.scss"
+import filterStyle from "../../scss/dashboard/users/users.filter.module.scss";
 import { useClickOutside } from "../../utils/custom-hooks/useClickOutside";
 import { createPortal } from "react-dom";
+import { useUsers } from "../../store/queries/users";
+import { userStatsData } from "../../utils/dummy-data/userStats";
+import { format } from "date-fns";
 
 type UserRowRefs = {
   button: HTMLButtonElement | null;
@@ -35,25 +37,31 @@ export const renderRowUser = (
   elementRefs: React.RefObject<Record<string, UserRowRefs>>
 ) => {
   const statusClass =
-    tableStyles[item.status.toLowerCase() as keyof typeof tableStyles];
+    tableStyles[item?.status?.toLowerCase() as keyof typeof tableStyles];
 
   return (
-    <tr key={item.id} >
-      <td className={tableStyles.td}>{item.company}</td>
+    <tr key={item?.id}>
+      <td className={`${tableStyles.td} ${tableStyles.company}`}>
+        {item?.company}
+      </td>
 
-      <td className={tableStyles.td}>{item.username}</td>
+      <td className={`${tableStyles.td}  ${tableStyles.username}`}>
+        {item?.username}
+      </td>
 
-      <td className={`${tableStyles.td} ${tableStyles.email}`}>{item.email}</td>
+      <td className={`${tableStyles.td} ${tableStyles.email}`}>
+        {item?.email}
+      </td>
 
-      <td className={tableStyles.td}>{item.phone}</td>
+      <td className={tableStyles.td}>{item?.phone}</td>
 
       <td className={tableStyles.td}>
-        {new Date(item.date_joined).toLocaleDateString()}
+        {format(new Date(item.date_joined), "MMM d, yyyy h:mm a")}
       </td>
 
       <td className={tableStyles.td}>
         <span className={`${tableStyles.status} ${statusClass}`}>
-          {item.status}
+          {item?.status}
         </span>
       </td>
 
@@ -61,56 +69,62 @@ export const renderRowUser = (
         <button
           type="button"
           ref={(el) => {
-            if (!elementRefs.current[item.id]) {
-              elementRefs.current[item.id] = {
+            if (!elementRefs.current[item?.id]) {
+              elementRefs.current[item?.id] = {
                 button: null,
                 dropdown: null,
               };
             }
-            elementRefs.current[item.id].button = el;
+            elementRefs.current[item?.id].button = el;
           }}
-          onClick={(e) => onEllipsisClick(item.id, e)}
+          onClick={(e) => onEllipsisClick(item?.id, e)}
         >
           <Ellipsis />
         </button>
       </td>
-      {openUserId === item.id &&  createPortal(
-        <div
-        ref={(el) => {
-      if (dropdownRef) (dropdownRef as React.RefObject<HTMLDivElement | null>).current = el;
-      if (elementRefs.current[item.id]) {
-        elementRefs.current[item.id].dropdown = el;
-      }
-    }}
-          onClick={(e) => e.stopPropagation()}
-          className={tableStyles.dropdown}
-          style={{
-            position: "fixed",
-            top: dropdownCoords.top,
-            left: dropdownCoords.left,
-          }}
-        >
-          <button
-            type="button"
-            onClick={(e) => onViewDetails(e, item.id)}
-            className={tableStyles.dropdownItem}
+      {openUserId === item?.id &&
+        createPortal(
+          <div
+            ref={(el) => {
+              if (dropdownRef)
+                (
+                  dropdownRef as React.RefObject<HTMLDivElement | null>
+                ).current = el;
+              if (elementRefs.current[item?.id]) {
+                elementRefs.current[item?.id].dropdown = el;
+              }
+            }}
+            onClick={(e) => e.stopPropagation()}
+            className={tableStyles.dropdown}
+            style={{
+              position: "fixed",
+              top: dropdownCoords.top,
+              left: dropdownCoords.left,
+            }}
           >
-            <ViewIcon /> View Details
-          </button>
-          <button type="button" className={tableStyles.dropdownItem}>
-            <BlackListIcon /> Blacklist User
-          </button>
-          <button type="button" className={tableStyles.dropdownItem}>
-            <ActivateIcon /> Activate User
-          </button>
-        </div>, document.body
-      )}
+            <button
+              type="button"
+              onClick={(e) => onViewDetails(e, item?.id)}
+              className={tableStyles.dropdownItem}
+            >
+              <ViewIcon /> View Details
+            </button>
+            <button type="button" className={tableStyles.dropdownItem}>
+              <BlackListIcon /> Blacklist User
+            </button>
+            <button type="button" className={tableStyles.dropdownItem}>
+              <ActivateIcon /> Activate User
+            </button>
+          </div>,
+          document.body
+        )}
     </tr>
   );
 };
 
 const Users = () => {
   const navigate = useNavigate();
+  const { data: usersData, isLoading, isError, error } = useUsers();
   const [openUserId, setOpenUserId] = useState<string | null>(null);
 
   const [dropdownCoords, setDropdownCoords] = useState({
@@ -131,14 +145,15 @@ const Users = () => {
     startIndex,
     endIndex,
   } = usePagination({ totalItems: 500, itemsPerPage: 10 });
-  const paginatedData = userStatsData.slice(startIndex, endIndex);
+
+  const paginatedData = usersData?.slice(startIndex, endIndex);
 
   useEffect(() => {
-  const handleScroll = () => setOpenUserId(null);
-  // Listen to the window AND the table container for scrolling
-  window.addEventListener("scroll", handleScroll, true);
-  return () => window.removeEventListener("scroll", handleScroll, true);
-}, [openUserId]);
+    const handleScroll = () => setOpenUserId(null);
+    // Listen to the window AND the table container for scrolling
+    window.addEventListener("scroll", handleScroll, true);
+    return () => window.removeEventListener("scroll", handleScroll, true);
+  }, [openUserId]);
 
   const handleEllipsisClick = (
     id: string,
@@ -147,12 +162,10 @@ const Users = () => {
     e.stopPropagation();
 
     const rect = e.currentTarget.getBoundingClientRect();
-setDropdownCoords({
-    // Viewport coordinates only
-    top: rect.bottom, 
-    left: rect.left - 140, 
-  });
- 
+    setDropdownCoords({
+      top: rect.bottom,
+      left: rect.left - 140,
+    });
 
     setOpenUserId((prev) => (prev === id ? null : id));
   };
@@ -168,39 +181,32 @@ setDropdownCoords({
 
   //Close dropdown when clicked outside
   useClickOutside(
-  () => {
-    if (!openUserId) return [];
+    () => {
+      if (!openUserId) return [];
 
-    const refs = elementRefs.current[openUserId];
-    if (!refs) return [];
+      const refs = elementRefs.current[openUserId];
+      if (!refs) return [];
 
-    return [refs.dropdown, refs.button];
-  },
-  Boolean(openUserId),
-  () => setOpenUserId(null)
-);
-
-
+      return [refs.dropdown, refs.button];
+    },
+    Boolean(openUserId),
+    () => setOpenUserId(null)
+  );
 
   //Close filter modal when clicked outside
   useClickOutside(
-  () => [filterRef.current], 
-  isFilterOpen,
-  () => setIsFilterOpen(false),
-  "js-filter-button" 
-);
-
-
-
-
-  
+    () => [filterRef.current],
+    isFilterOpen,
+    () => setIsFilterOpen(false),
+    "js-filter-button"
+  );
 
   return (
     <div style={{ position: "relative" }} className={styles.users_container}>
       <h1 className={styles.heading}>Users</h1>
       {/* Users Stats */}
       <section className={`${styles.user_stats_container} custom-scrollbar`}>
-        {paginatedData.map((user: userStats) => (
+        {userStatsData?.map((user: userStats) => (
           <UsersStats
             key={user.id}
             title={user.title}
@@ -213,19 +219,22 @@ setDropdownCoords({
       {/* Users List */}
       <section className={styles.table_container}>
         {isFilterOpen && (
-          <div ref={filterRef}   className={`${filterStyle.filter} custom-scrollbar`}>
-          <UsersFilter
-            onClose={() => setIsFilterOpen(false)}
-            onReset={() => console.log("reset")}
-            onApply={() => console.log("apply filter")}
-          />
+          <div
+            ref={filterRef}
+            className={`${filterStyle.filter} custom-scrollbar`}
+          >
+            <UsersFilter
+              onClose={() => setIsFilterOpen(false)}
+              onReset={() => console.log("reset")}
+              onApply={() => console.log("apply filter")}
+            />
           </div>
         )}
         <UsersTable
           headers={headers}
-          data={data}
+          data={paginatedData}
           openFilter={() => setIsFilterOpen((prev) => !prev)}
-          renderRow={(item, ) =>
+          renderRow={(item: UserList) =>
             renderRowUser(
               item,
               openUserId,
@@ -236,6 +245,9 @@ setDropdownCoords({
               elementRefs
             )
           }
+          isLoadingData={isLoading}
+          isError={isError}
+          error={error}
         />
       </section>
       {/* Pagination */}

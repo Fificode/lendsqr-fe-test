@@ -1,27 +1,41 @@
 import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import styles from "../../scss/dashboard/users/users.details.module.scss"
 import ArrowBack from "../../assets/images/arrow-back.svg?react"
-import {data} from "../../utils/dummy-data/userList"
 import ProfileIcon from "../../assets/images/user.svg?react"
 import FilledStar from "../../assets/images/star-fill.svg?react"
 import OutlineStar from "../../assets/images/star-outline.svg?react"
 import { userTabs } from "../../utils/userTabs";
+import { useUsers } from "../../store/queries/users";
+import type { UserList } from "../../types/userLists";
+
 
 const UserDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
+  const { data: usersData, isLoading, isError, error} = useUsers();
   // Find user that matches the ID in the URL
-  const user = data.find((item) => String(item.id) === id);
+  const user = usersData?.find((item: UserList) => String(item?.id) === id);
+
 
   // When user isn't found
-  if (!user) {
+  if (!isLoading && !user) {
     return (
       <div className={styles.container}>
-        <p>User not found</p>
-        <button onClick={() => navigate(-1)}>Go Back</button>
+        <p className={styles.message_text}>User not found</p>
+         <button className={styles.back_button} onClick={() => navigate(-1)}><ArrowBack className={styles.arrow_back}/> <span>Back to Users</span></button>
       </div>
     );
+  }
+
+  if(isLoading) {
+    <div className={styles.container}>
+        <p className={styles.message_text}>Loading...</p>
+      </div>
+  }
+  if(isError) {
+    <div className={styles.container}>
+        <p className={styles.message_text_error}>{error?.message} || Error...</p>
+      </div>
   }
 
   return (

@@ -4,7 +4,7 @@ $accent-blue: #545f7d;
 
 @font-face {
   font-family: 'AvenirNext';
-  src: url('../assets/fonts/AvenirNext-Regular.otf') format('opentype');
+  src: url('./assets/fonts/AvenirNext-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -12,8 +12,15 @@ $accent-blue: #545f7d;
 
 @font-face {
   font-family: 'AvenirNext';
-  src: url('../assets/fonts/AvenirNext-Bold.otf') format('opentype');
+  src: url('./assets/fonts/AvenirNext-Bold.otf') format('opentype');
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('./assets/fonts/AvenirNext-Medium.otf') format('opentype');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }

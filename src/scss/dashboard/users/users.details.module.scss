@@ -28,7 +28,6 @@ $light-green: #39CDCC;
 
     .arrow_back{
         width: 2rem;
-        height: 2rem;
     }
     span{
         font-weight: 400;
@@ -261,4 +260,14 @@ font-size: 1.4rem;
   }
 }
 
+.message_text{
+   font-size: 1.8rem;
+    font-weight: 500;
+    color: $primary;
+}
+.message_text_error{
+   font-size: 1.8rem;
+    font-weight: 500;
+    color: red;
+}
 

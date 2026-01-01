@@ -9,7 +9,7 @@ $primary: #545F7D;
  box-shadow: 3px 5px 20px 0px rgba(0, 0, 0, 0.04);
     overflow-x: auto;
     position: relative;
-    max-height: 500px;
+    max-height: 600px;
 }
 
 .table {
@@ -28,7 +28,9 @@ tr{
   }
 }
 
-
+.company, .username{
+  text-transform: capitalize;
+}
 
 .th {
   padding: 2.5rem 0.5rem 2rem 0.5rem;
@@ -132,4 +134,40 @@ cursor: pointer;
   font-weight: 500;
 color: $primary;
 
+}
+
+.loading_data_container, .data_not_found_container{
+  width: 100%;
+  height: 100%;
+  td{
+    text-align: center;
+    padding:1.4rem 0 ;
+  }
+  p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #213F7D;
+  }
+}
+
+.error_container{
+  width: 100%;
+  height: 100%;
+  td{
+    text-align: center;
+    padding:1.4rem 0 ;
+  }
+  p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: red;
+  }
 }
