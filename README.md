@@ -1,4 +1,4 @@
-![Lendsqr Logo](./assets/images/lendsqr-logo.png)
+![Lendsqr Logo](../assets/images/lendsqr-logo.png)
 # Lendsqr Front-End Engineering Assessment
 
 This repository contains the codes for the client side of the Lendsqr front-end engineering assessment
