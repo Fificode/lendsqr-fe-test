@@ -1,6 +1,5 @@
-![Lendsqr Logo](./src/assets/images/lendsqr-logo.png)
 <p align="center">
-  <img src="./src/assets/images/lendsqr-logo.png" width="600" />
+  <img src="./src/assets/images/lendsqr-logo.png" width="300" />
 </p>
 
 # Lendsqr Front-End Engineering Assessment
